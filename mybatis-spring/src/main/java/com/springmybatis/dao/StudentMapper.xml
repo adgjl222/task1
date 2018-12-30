@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmybatis.dao.StudentMapper">
+    <insert id="insertStudent" useGeneratedKeys="true" keyProperty="id" >
+    INSERT INTO student(line_id,name,qq,type,estimated_time,graduate_from,logURL,will,senior,know_from,created_at,updated_at)
+    VALUES(#{lineId},#{name},#{qq},#{type},#{estimatedTime},#{graduateFrom},#{logUrl},#{will},#{senior},#{knowFrom},#{createdAt},#{updatedAt})
+    </insert>
+
+    <update id="updateStudent" >
+        UPDATE student
+        SET type=#{type},senior= #{senior}
+        WHERE line_id = #{lineId}
+    </update>
+
+    <delete id="deleteStudent" parameterType="int" >
+         DELETE FROM student
+         WHERE  ID = #{id}
+     </delete>
+
+    <select id="selectOne"  parameterType="Map" resultType="com.springmybatis.entity.Student">
+      SELECT * FROM student WHERE  line_id = #{lineId} AND name = #{name}
+
+    </select>
+
+    <select id="selectAll" resultType="com.springmybatis.entity.Student">
+        SELECT * FROM student
+    </select>
+
+</mapper>

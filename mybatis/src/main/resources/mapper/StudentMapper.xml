@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.StudentMapper">
+   <resultMap id="studentResultMap" type="Student">
+       <result property="lineId" javaType="Integer" column="line_id"></result>
+       <result property="name" javaType="string" column="name"></result>
+       <result property="qq" javaType="Integer" column="qq"></result>
+       <result property="type" javaType="string" column="type"></result>
+       <result property="estimatedTime" javaType="Long" column="estimated_time"></result>
+       <result property="graduateFrom" javaType="string" column="graduate_from"></result>
+       <result property="logUrl" javaType="string" column="logURL"></result>
+       <result property="will" javaType="string" column="will"></result>
+       <result property="senior" javaType="string" column="senior"></result>
+       <result property="knowFrom" javaType="string" column="know_from"></result>
+       <result property="id" javaType="Integer" column="ID"></result>
+       <result property="createdAt" javaType="Long" column="created_at"></result>
+       <result property="updatedAt" javaType="Long" column="updated_at"></result>
+
+
+   </resultMap>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    INSERT IntegerO student(line_id,name,qq,type,estimated_time,graduate_from,logURL,will,senior,know_from,created_at,updated_at)
+    VALUES(#{lineId},#{name},#{qq},#{type},#{estimatedTime},#{graduateFrom},#{logUrl},#{will},#{senior},#{knowFrom},#{createdAt},#{updatedAt})
+    </insert>
+
+
+
+    <update id="update" >
+        UPDATE student
+        SET type=#{type},senior= #{senior}
+        WHERE line_id = #{line_id}
+    </update>
+
+     <delete id="delete" parameterType="Integer" >
+         DELETE FROM student
+         WHERE  ID = #{id}
+     </delete>
+
+    <select id="selectUserByLineIdAndName"  parameterType="Map" resultType="com.mybatis.entity.Student">
+      SELECT * FROM student WHERE  line_id = #{lineId} AND name = #{name}
+
+    </select>
+
+    <select id="selectAll" resultMap="studentResultMap">
+        SELECT * FROM student
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--引入数据库配置文件-->
+    <!--属性占位文件引入，可以通过${属性名}获得属性文件中的内容-->
+    <context:property-placeholder location="classpath:db.properties" />
+    <!--另一种引入方式-->
+    <!--<bean id = "propertyConfigurer"
+          class = "org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name = "location" value="classpath:jdbc.properties" />
+    </bean>-->
+
+    <!--定义一个jdbc数据源 使用c3p0连接池进行管理，创建一个驱动管理数据源的bean-->
+    <bean id = "jdbcDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver}"></property>
+        <property name="jdbcUrl" value="${jdbc.url}"></property>
+        <property name="user" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <!--连接用完自动增量3个-->
+        <property name="acquireIncrement" value="3"></property>
+        <!--连接池初始连接数-->
+        <property name="initialPoolSize" value="10"></property>
+        <!--连接池最小连接数-->
+        <property name="minPoolSize" value="3"></property>
+        <!--连接池最大连接数-->
+        <property name="maxIdleTime" value="20"></property>
+    </bean>
+
+    <!--创建一个sql会话工厂bean，指定数据源-->
+
+    <!--在没有Spring的环境下我们单纯使用Mybatis ORM框架时，我们是通过Mybatis的配置文件完成sqlSessionFactory的构建工作-->
+    <!--如果使用Spring，这部分配置的内容可以完全由Spring容器替代-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定数据源-->
+        <property name="dataSource" ref="jdbcDataSource"></property>
+
+        <!--类型别名包，默认引入com.springmybatis.entity下的所有类-->
+        <property
+                name="typeAliases"
+                value="com.springmybatis.entity.Student">
+        </property>
+
+        <!--指定sql映射xml文件的路径-->
+        <property name="mapperLocations"
+                  value="classpath*:com/springmybatis/**/StudentMapper.xml">
+        </property>
+    </bean>
+
+    <!--自动扫描映射接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定sql会话工厂，在上面已经配置过-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+
+        <!--指定基础包，即自动扫描com.springmybatis.dao这个包以及他的子包下的所有映射接口类-->
+        <property name="basePackage"
+                  value="com.springmybatis.dao">
+
+        </property>
+
+    </bean>
+</beans>

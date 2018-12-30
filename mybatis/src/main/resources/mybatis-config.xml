@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--调用数据库配置信息-->
+    <properties resource="database.properties"></properties>
+
+    <!--选择log4j日志存储文件-->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <!--类型别名是为Java类型设置一个短的名字。它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余-->
+    <typeAliases>
+        <!--这样配置后，Student可以用在任何使用entity.Student的地方-->
+        <typeAlias alias="Student" type="com.mybatis.entity.Student"></typeAlias>
+    </typeAliases>
+
+
+    <!--配置mybatis运行环境-->
+    <environments default="development">
+        <environment id="development">
+
+            <!--type="JDBC"表示使用JDBC的提交和回滚设置来管理事物，它依赖于从数据源得到的连接来管理事物作用域-->
+            <transactionManager type="JDBC"></transactionManager>
+
+            <!-- mybatis提供了3种数据源类型，分别是：POOLED,UNPOOLED,JNDI -->
+            <!-- POOLED 表示支持JDBC数据源连接池 -->
+            <!-- UNPOOLED 表示不支持数据源连接池 -->
+            <!-- JNDI 表示支持外部数据源连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--mappers是映射器，这步配置告诉MyBatis去哪找sql映射文件-->
+        <mapper resource="mapper/StudentMapper.xml"></mapper><!--注册StudentMapper.xml文件 (通过配置xml配置文件方式)-->
+        <mapper class="com.mybatis.dao.StudentMapperByAnnotation"></mapper>
+
+    </mappers>
+
+
+</configuration>
