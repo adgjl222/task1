@@ -63,7 +63,7 @@ public class StudentTest {
         HashMap<String,Object> map = new HashMap<String, Object>();
         map.put("name","刘文");
         map.put("line_id",2587);
-        studentService.selectOne(map);
+        studentService.selectUserByLineIdAndName(map);
 
     }
 
