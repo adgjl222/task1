@@ -100,12 +100,12 @@ public class StudentServiceImpl {
      * 根据学生线上学号与姓名查询学生信息
      * @return
      */
-    public List<Student> selectOne(HashMap<String,Object> map) {
+    public List<Student> selectUserByLineIdAndName(HashMap<String,Object> map) {
         List<Student> list =  null;
         try {
             applicationContext = new ClassPathXmlApplicationContext("ApplicationContext.xml");
             studentMapper = applicationContext.getBean(StudentMapper.class);
-            list = studentMapper.selectOne(map);
+            list = studentMapper.selectOnselectUserByLineIdAndName(map);
             if (list != null){
                 log.info(list);
 
