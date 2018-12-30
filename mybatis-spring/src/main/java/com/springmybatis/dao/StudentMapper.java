@@ -28,7 +28,7 @@ public interface StudentMapper {
      * @param
      * @return
      */
-    List<Student> selectOnselectUserByLineIdAndName(HashMap<String,Object> map);
+    List<Student> selectUserByLineIdAndName(HashMap<String,Object> map);
 
     /**
      * 查询全表
